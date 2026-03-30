@@ -30,7 +30,7 @@ DocShield is a secure, Streamlit-powered document reader that verifies file type
 - Python 3.8 or higher  
 - pip package manager  
 
-### Installation
+## Installation
 
 ### Linux / macOS / WSL
 
@@ -65,7 +65,7 @@ http://localhost:8501
 
 ---
 
-## ☁️ Deploy to Streamlit Cloud (FREE)
+### ☁️Deploy to Streamlit Cloud (FREE)
 
 Share DocShield with anyone — no Python installation required.
 
