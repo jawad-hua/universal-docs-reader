@@ -61,7 +61,7 @@ streamlit run universal_reader_app.py
 The app will open at:
 
 http://localhost:8501
-
+```
 
 ---
 
@@ -71,8 +71,8 @@ Share DocShield with anyone — no Python installation required.
 
 Step 1: Create a GitHub Repository
 
-# Go to https://github.com/new
-# Create a public repository named: docshield-reader
+## Go to https://github.com/new
+## Create a public repository named: docshield-reader
 
 Upload these three files:
 
