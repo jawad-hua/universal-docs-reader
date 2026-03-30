@@ -1,10 +1,3 @@
-#!/usr/bin/env python3
-"""
-DocShield — Universal Document Reader  v4.0
-Fixed: Network/Axios errors, ValueError, PPTX render, Duplicate columns,
-       file_uploader reset bug, Arrow serialization, session state corruption
-"""
-
 import streamlit as st
 import os, json, hashlib, zipfile, tempfile, io, time, traceback
 from datetime import datetime
