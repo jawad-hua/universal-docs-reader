@@ -215,8 +215,7 @@ Check "Logs" tab in your app dashboard
 
 ## 📄 License
 
-This project is created for educational purposes as part of an assignment 
-on file integrity verification.
+This project is created for educational purposes only.
 
 
 ---
@@ -235,7 +234,7 @@ pdfplumber, python-docx, openpyxl — Document parsing libraries
 
 ## 📞 Support
 
-For issues related to this assignment:
+For issues related to this:
 
 1. Check the Troubleshooting Guide above
 
