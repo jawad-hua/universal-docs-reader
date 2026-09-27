@@ -18,6 +18,9 @@ A secure Streamlit application that verifies the real type of uploaded files usi
 </div>
 
 ---
+## Application Preview
+
+![DocShield Dashboard](assets/screenshots/docshield-dashboard.png)
 
 ## Overview
 
