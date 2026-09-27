@@ -1,253 +1,402 @@
-# 🛡️ DocShield — Universal Document Reader
+<div align="center">
 
-## Magic-Based File Integrity Verification + Professional Document Viewer
+# 🛡️ DocShield
 
-DocShield is a secure, Streamlit-powered document reader that verifies file types using **libmagic** (magic bytes) instead of trusting file extensions. It blocks malicious files disguised as documents and provides a rich viewing experience for PDFs, Office files, images, and plain text formats.
+### Universal Document Reader & File Integrity Verification Tool
+
+A secure Streamlit application that verifies the real type of uploaded files using **magic bytes** before processing them, helping detect extension spoofing and potentially unsafe executables.
+
+[Live Demo](https://jawad-docsshield.streamlit.app/) · [Report an Issue](https://github.com/jawad-hua/universal-docs-reader/issues)
+
+<br>
+
+![Python](https://img.shields.io/badge/Python-3.8+-3776AB?logo=python&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?logo=streamlit&logoColor=white)
+![Security](https://img.shields.io/badge/File-Verification-success)
+![Status](https://img.shields.io/badge/Status-Live-brightgreen)
+
+</div>
 
 ---
 
-## ✨ Key Features
+## Overview
+
+**DocShield** is a security-focused universal document reader built with Python and Streamlit.
+
+Instead of trusting a file's extension, DocShield inspects its underlying binary signature using **libmagic** to determine the actual file type before processing it.
+
+For example, a malicious executable renamed as:
+
+```text
+document.pdf
+```
+
+can still be identified by its true binary signature and rejected before normal document processing begins.
+
+The application combines **file integrity verification** with practical document viewing and inspection tools.
+
+---
+
+## Key Features
 
 | Feature | Description |
-|---------|-------------|
-| Magic Byte Verification | Reads binary signatures (1000+ formats) to detect true file type |
-| Threat Blocking | Automatically blocks EXE, ELF, scripts, and other executables |
-| Multi-Format Support | PDF, DOCX, XLSX, Images (PNG/JPEG/GIF/BMP/WEBP), JSON, CSV, TXT |
-| PDF Power Tools | 200-page limit, per-page tabs, full-text search, text export |
-| DOCX Parser | Paragraphs, tables, heading hierarchy |
-| XLSX Viewer | Multi-sheet Excel with dataframe views |
-| Image Metadata | Shows dimensions, format, and EXIF data where available |
-| Hex Dump | Raw binary header inspection for advanced users |
-| Session Log | Complete audit trail of all scanned files |
-| Download Extracts | Save PDF text as `.txt` file |
+|---|---|
+| Magic Byte Verification | Detects the actual file type from its binary signature |
+| Extension Spoofing Detection | Identifies files whose real type does not match their extension |
+| Threat Blocking | Rejects executable and potentially unsafe file types |
+| Multi-Format Support | Reads PDFs, DOCX, XLSX, images, JSON, CSV, and TXT files |
+| PDF Inspection | Supports page-based document viewing, text search, and extraction |
+| DOCX Parsing | Reads paragraphs, headings, and tables |
+| Excel Viewer | Displays multiple XLSX sheets as structured tables |
+| Image Inspection | Displays image metadata such as dimensions and format |
+| Hex Dump | Allows inspection of raw binary file headers |
+| Session Logging | Maintains a record of files processed during the session |
+| Text Export | Extracted PDF text can be downloaded as a `.txt` file |
 
 ---
 
-## 🚀 Quick Start (Local)
+## Supported File Types
 
-### Prerequisites
+| Format | Detection / Processing | Main Features |
+|---|---|---|
+| PDF | `%PDF` signature | Page viewing, search, text extraction |
+| DOCX | ZIP / Office structure | Paragraphs, headings, tables |
+| XLSX | ZIP / Excel structure | Multi-sheet table viewing |
+| JPEG | JPEG signature | Preview and metadata |
+| PNG | PNG signature | Preview and metadata |
+| GIF | GIF signature | Preview and metadata |
+| BMP | BMP signature | Preview and metadata |
+| WEBP | WEBP signature | Preview and metadata |
+| JSON | Content validation | Structured text display |
+| CSV | Text / delimiter processing | Tabular view |
+| TXT | Plain text | Text viewer |
+| Executables | Binary signature | Blocked for safety |
 
-- Python 3.8 or higher  
-- pip package manager  
+---
 
-## Installation
+## Security Approach
 
-### Linux / macOS / WSL
+DocShield follows a simple principle:
+
+> **Don't trust the extension — verify the file itself.**
+
+Traditional file handling often relies on names such as:
+
+```text
+report.pdf
+photo.jpg
+document.docx
+```
+
+However, an extension can easily be changed.
+
+A file named:
+
+```text
+invoice.pdf
+```
+
+may actually contain executable content.
+
+DocShield checks the file's **magic bytes / binary signature** before deciding how the file should be processed.
+
+### Verification Flow
+
+```text
+User Upload
+    ↓
+Read Binary Signature
+    ↓
+Detect Real File Type
+    ↓
+Compare With File Extension
+    ↓
+ ┌─────────────────┐
+ │ Safe Document?  │
+ └────────┬────────┘
+          │
+      Yes │ No
+          │
+    ↓     ↓
+Process   Block
+File      File
+```
+
+This helps detect:
+
+- Extension spoofing
+- Renamed executables
+- Files disguised as documents
+- Unexpected binary content
+
+---
+
+## Application Workflow
+
+```text
+Upload File
+    ↓
+File Integrity Verification
+    ↓
+Magic Byte Detection
+    ↓
+Security Check
+    ↓
+Document Parser
+    ↓
+Content Viewer
+    ↓
+Metadata / Search / Export
+```
+
+---
+
+## Tech Stack
+
+| Category | Technology |
+|---|---|
+| Language | Python |
+| Interface | Streamlit |
+| File Detection | libmagic / python-magic |
+| PDF Processing | pdfplumber |
+| Word Documents | python-docx |
+| Excel Files | openpyxl |
+| Data Processing | pandas |
+| Images | Pillow |
+| Deployment | Streamlit Community Cloud |
+
+---
+
+## Project Structure
+
+```text
+universal-docs-reader/
+│
+├── universal_reader_app.py
+├── requirements.txt
+├── packages.txt
+└── README.md
+```
+
+### Main Files
+
+**`universal_reader_app.py`**  
+Contains the Streamlit interface, file verification logic, document parsers, and viewing functionality.
+
+**`requirements.txt`**  
+Contains the Python dependencies required by the application.
+
+**`packages.txt`**  
+Installs the required system-level `libmagic` dependency for Streamlit Cloud.
+
+---
+
+## Run Locally
+
+### 1. Clone the repository
 
 ```bash
-# Install system library
-sudo apt-get install libmagic1   # Debian/Ubuntu
+git clone https://github.com/jawad-hua/universal-docs-reader.git
+cd universal-docs-reader
+```
 
-# OR
+### 2. Create a virtual environment
 
-brew install libmagic            # macOS
+#### Windows
 
-# Install Python packages
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+#### Linux / macOS
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### 3. Install dependencies
+
+```bash
 pip install -r requirements.txt
+```
 
-# Run the app
-streamlit run universal_reader_app.py
+### 4. Install libmagic
 
-Windows
+#### Ubuntu / Debian
 
-# Install Python package (includes libmagic DLL)
+```bash
+sudo apt-get install libmagic1
+```
+
+#### macOS
+
+```bash
+brew install libmagic
+```
+
+For Windows environments where `python-magic` cannot locate the required library:
+
+```bash
 pip install python-magic-bin
+```
 
-pip install -r requirements.txt
+### 5. Start the application
 
-# Run the app
+```bash
 streamlit run universal_reader_app.py
+```
 
-The app will open at:
+The application should open at:
 
+```text
 http://localhost:8501
 ```
 
 ---
 
-### ☁️Deploy to Streamlit Cloud (FREE)
+## Streamlit Cloud Deployment
 
-Share DocShield with anyone — no Python installation required.
+The public version of DocShield is deployed using Streamlit Community Cloud.
 
-Step 1: Create a GitHub Repository
+### Live Application
 
-## Go to https://github.com/new
-## Create a public repository named: docshield-reader
+**https://jawad-docshield.streamlit.app/**
 
-Upload these three files:
+For Streamlit Cloud deployment, `packages.txt` should include:
 
-docshield-reader/
-├── universal_reader_app.py
-├── requirements.txt
-└── packages.txt
-
-
----
-
-Step 2: Create packages.txt
-
+```text
 libmagic1
+```
 
+The required Python libraries should be listed in:
 
----
-
-Step 3: Create requirements.txt
-
-streamlit>=1.28.0
-python-magic>=0.4.27
-pdfplumber>=0.10.0
-python-docx>=0.8.11
-openpyxl>=3.1.0
-pandas>=2.0.0
-Pillow>=10.0.0
-
+```text
+requirements.txt
+```
 
 ---
 
-Step 4: Deploy on Streamlit Cloud
+## Example Security Scenario
 
-1. Go to https://share.streamlit.io
-2. Sign in with GitHub
-3. Click "New app"
-4. Select your repository and universal_reader_app.py
-5. Click "Deploy"
+Suppose a user uploads:
 
-Your public URL will look like:
+```text
+financial_report.pdf
+```
 
-https://yourusername-docshield-reader-xxxx.streamlit.app
+The application does not immediately trust `.pdf`.
 
-Share this link — your users only need a web browser.
+Instead, DocShield:
 
+1. Reads the file's binary header.
+2. Determines its actual MIME/file type.
+3. Checks whether the detected type is safe.
+4. Blocks the file if it represents an executable or unsupported binary.
+5. Processes it only when verification succeeds.
 
----
-
-## 📁 Project Structure
-
-your-project/
-
-├── universal_reader_app.py
-├── requirements.txt
-└── packages.txt
-
+This provides an additional validation layer before document content is displayed.
 
 ---
 
-## 🛡️ Security Philosophy
+## Use Cases
 
-> "Don't trust the extension — trust the magic bytes."
+DocShield can be useful for:
 
+### Secure Document Inspection
 
+Inspect files before opening or processing their contents.
 
-Most file viewers rely on file extensions (e.g., .pdf). DocShield reads the actual binary header (magic bytes) to determine what a file really is.
+### File Integrity Verification
 
-This prevents:
+Confirm whether a file's real format matches its extension.
 
-.pdf.exe malware disguised as a PDF
+### Document Analysis
 
-Renamed script files
+Read and inspect several common document formats from one interface.
 
-Extension spoofing attacks
+### Security Education
 
+Demonstrate concepts such as:
 
-If a file's magic signature indicates it's executable, DocShield blocks it entirely and alerts the user.
+- Magic bytes
+- MIME/file-type detection
+- Extension spoofing
+- Binary signatures
+- Secure file handling
 
+### Developer Utilities
 
----
-
-# 📚 Supported File Types & Limits
-
-## Format	Magic Detection	Features
-
-PDF	%PDF header	200 pages, search, per-page tabs, text export
-DOCX	PK\x03\x04 + Word structure	Paragraphs, tables, heading hierarchy
-XLSX	PK\x03\x04 + Excel structure	Multi-sheet, dataframe views
-Images	JPEG/PNG/GIF/BMP/WEBP signatures	Metadata, dimensions, format
-JSON	Text + structure validation	Syntax highlighting
-CSV	Text + delimiter detection	Table view
-TXT	Plain text	Raw display with monospace
-Blocked	EXE, ELF, Mach-O, scripts	Alert + no access
-
-
+Inspect file headers, metadata, and document structure during development or debugging.
 
 ---
 
-## 🎓 Assignment Information
+## Troubleshooting
 
-Subject:      Universal Document Reader (Assignment #2)
-Technology:   Python 3.x + Streamlit + libmagic
-Core Concept: File extension ≠ file type — magic bytes reveal truth
-Submission:   Source code + requirements.txt + packages.txt + README
+### `libmagic` not found on Linux
 
+```bash
+sudo apt-get install libmagic1
+```
 
----
+### `python-magic` error on Windows
 
-# ❓ Troubleshooting Guide
+Try:
 
-## Issue	Solution
+```bash
+pip install python-magic-bin
+```
 
-libmagic not found (Linux)	Run sudo apt-get install libmagic1
-python-magic error (Windows)	Run pip install python-magic-bin
-PDF won't load	Check file size (<200 pages, <50MB recommended)
-EXE not blocked	Verify libmagic is working — check session log
-Streamlit Cloud fails	Ensure packages.txt contains libmagic1
-ImportError on deployment	Check all packages are in requirements.txt
+### Streamlit Cloud deployment fails
 
+Verify that `packages.txt` contains:
 
+```text
+libmagic1
+```
 
----
+and that all required Python libraries are present in `requirements.txt`.
 
-## 🔧 Development Commands
+### Import errors
 
-# Install dependencies
+Reinstall dependencies:
+
+```bash
 pip install -r requirements.txt
-
-# Run locally
-streamlit run universal_reader_app.py
-
-# Stop the app
-Press Ctrl+C in terminal
-
-# View logs (Streamlit Cloud)
-Check "Logs" tab in your app dashboard
-
+```
 
 ---
 
-## 📄 License
+## Security Notes
 
-This project is created for educational purposes only.
+DocShield provides an additional file-validation layer, but it should not be treated as a replacement for:
 
+- Antivirus software
+- Endpoint security
+- Malware sandboxes
+- Enterprise security gateways
 
----
-
-## 🙏 Acknowledgments
-
-libmagic — The backbone of file type detection
-
-Streamlit — Rapid UI framework
-
-pdfplumber, python-docx, openpyxl — Document parsing libraries
-
-
+The project is primarily designed for document inspection, secure file-handling demonstrations, and practical security experimentation.
 
 ---
 
-## 📞 Support
+## Author
 
-For issues related to this:
+**Muhammad Jawad**
 
-1. Check the Troubleshooting Guide above
+AI/ML Engineer focused on Python, AI applications, automation, and practical software engineering.
 
-
-2. Verify your packages.txt contains libmagic1
-
-
-3. Ensure all files are in the correct structure
-
-
-
+[GitHub](https://github.com/jawad-hua) ·
+[LinkedIn](https://www.linkedin.com/in/muhammad-jawad-ai/) ·
+[Kaggle](https://www.kaggle.com/mjawadjawad)
 
 ---
 
-Built with ❤️ and magic bytes
+<div align="center">
 
+### 🛡️ DocShield
+
+**Verify the file before trusting the extension.**
+
+</div>
